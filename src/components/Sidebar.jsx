@@ -1,9 +1,11 @@
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { Plus, Settings, MessageSquare, Trash2 } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
 
 export default function Sidebar({ onOpenSettings }) {
   const { chats, activeChatId, setActiveChatId, deleteChat } = useContext(AppContext);
+  const { t } = useTranslation();
 
   return (
     <aside style={{
@@ -16,14 +18,14 @@ export default function Sidebar({ onOpenSettings }) {
       gap: '0.5rem'
     }}>
       <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem', textAlign: 'center', color: 'var(--text-primary)' }}>
-        Custom AI
+        {t('sidebarTitle')}
       </h1>
       <button 
         className="btn btn-primary" 
         onClick={() => setActiveChatId(null)}
         style={{ width: '100%', marginBottom: '1rem' }}
       >
-        <Plus size={18} /> Nova Conversa
+        <Plus size={18} /> {t('newChatBtn')}
       </button>
 
       <div style={{ flex: 1, overflowY: 'auto' }} className="chat-list">
@@ -44,7 +46,7 @@ export default function Sidebar({ onOpenSettings }) {
           >
             <MessageSquare size={16} style={{ marginRight: '0.5rem', minWidth: '16px', color: 'var(--text-muted)' }} />
             <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.875rem' }}>
-              {chat.title}
+              {chat.title === 'Nova Conversa' ? t('newChatTitle') : chat.title}
             </span>
             <button 
               className="btn-icon" 
@@ -62,7 +64,7 @@ export default function Sidebar({ onOpenSettings }) {
         onClick={onOpenSettings}
         style={{ width: '100%', marginTop: 'auto' }}
       >
-        <Settings size={18} /> Configurações Gerais
+        <Settings size={18} /> {t('globalSettingsBtn')}
       </button>
     </aside>
   );

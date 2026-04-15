@@ -19,6 +19,7 @@ export const saveSettings = async (settings) => {
 export const loadSettings = async () => {
   return (await localforage.getItem('settings')) || {
     openaiKey: '',
-    geminiKey: ''
+    geminiKey: '',
+    language: 'pt'
   };
 };

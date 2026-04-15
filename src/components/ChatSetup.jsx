@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../AppContext';
 import { HelpCircle } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
 
 const HelpTooltip = ({ text }) => {
   const [show, setShow] = useState(false);
@@ -36,10 +37,11 @@ const modelsAvailable = {
 
 export default function ChatSetup() {
   const { createChat } = useContext(AppContext);
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     provider: 'openai',
     model: 'gpt-4o',
-    systemPrompt: 'Você é um assistente virtual útil e experiente.',
+    systemPrompt: 'Você é um assistente virtual útil e experiente. You are a helpful and experienced virtual assistant.',
     temperature: 0.7,
     topK: 40,
     topP: 0.95
@@ -64,12 +66,12 @@ export default function ChatSetup() {
   return (
     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', overflowY: 'auto' }}>
       <form onSubmit={handleSubmit} className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '600px', padding: '2.5rem', borderRadius: '1rem' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.5rem', fontWeight: 'bold' }}>Configurar Nova Conversa</h2>
+        <h2 style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.5rem', fontWeight: 'bold' }}>{t('setupTitle')}</h2>
         
         <div style={{ marginBottom: '1.5rem' }}>
           <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>
-            System Prompt
-            <HelpTooltip text="Define o comportamento e as regras base da IA para esta conversa." />
+            {t('systemPrompt')}
+            <HelpTooltip text={t('systemPromptTooltip')} />
           </label>
           <textarea 
             name="systemPrompt" 
@@ -83,7 +85,7 @@ export default function ChatSetup() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
           <div>
             <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>
-              Provedor
+              {t('provider')}
             </label>
             <select name="provider" value={formData.provider} onChange={handleChange} className="select-field">
               <option value="openai">OpenAI</option>
@@ -93,8 +95,8 @@ export default function ChatSetup() {
 
           <div>
             <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>
-              Modelo da IA
-              <HelpTooltip text="A versão da inteligência artificial que responderá suas perguntas." />
+              {t('model')}
+              <HelpTooltip text={t('modelTooltip')} />
             </label>
             <select name="model" value={formData.model} onChange={handleChange} className="select-field">
               {modelsAvailable[formData.provider].map(m => (
@@ -107,8 +109,8 @@ export default function ChatSetup() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '2.5rem' }}>
           <div>
             <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500', justifyContent: 'space-between' }}>
-              <span>Temperatura: {formData.temperature}</span>
-              <HelpTooltip text="Valores perto de 0 geram respostas lógicas e repetitivas. Perto de 2 gera mais criatividade." />
+              <span>{t('temperature')}: {formData.temperature}</span>
+              <HelpTooltip text={t('temperatureTooltip')} />
             </label>
             <input 
               type="range" 
@@ -123,8 +125,8 @@ export default function ChatSetup() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
             <div>
               <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500', justifyContent: 'space-between' }}>
-                <span>Top K: {formData.topK}</span>
-                <HelpTooltip text="Quantas palavras prováveis a IA considera ao mesmo tempo. Menos = mais focado." />
+                <span>{t('topK')}: {formData.topK}</span>
+                <HelpTooltip text={t('topKTooltip')} />
               </label>
               <input 
                 type="range" 
@@ -137,8 +139,8 @@ export default function ChatSetup() {
             </div>
             <div>
               <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500', justifyContent: 'space-between' }}>
-                <span>Top P: {formData.topP}</span>
-                <HelpTooltip text="Reduz drasticamente variações se configurado para valor muito baixo (0.1). Controla a massa de probabilidade total dos tokens." />
+                <span>{t('topP')}: {formData.topP}</span>
+                <HelpTooltip text={t('topPTooltip')} />
               </label>
               <input 
                 type="range" 
@@ -153,7 +155,7 @@ export default function ChatSetup() {
         </div>
 
         <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '0.875rem', fontSize: '1rem', fontWeight: '600' }}>
-          Iniciar Conversa
+          {t('startChatBtn')}
         </button>
       </form>
     </div>

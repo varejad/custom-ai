@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../AppContext';
 import { X, HelpCircle } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
 
 const HelpTooltip = ({ text }) => {
   const [show, setShow] = useState(false);
@@ -36,7 +37,7 @@ const modelsAvailable = {
 
 export default function ChatSettingsModal({ chat, onClose }) {
   const { updateChatConfig } = useContext(AppContext);
-  // Ensure topP exists on older chats that might not have it saved
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({ topP: 0.95, ...chat.config });
 
   useEffect(() => {
@@ -67,13 +68,13 @@ export default function ChatSettingsModal({ chat, onClose }) {
         <button onClick={onClose} className="btn-icon" style={{ position: 'absolute', top: '1rem', right: '1rem' }} type="button">
           <X size={20} />
         </button>
-        <h2 style={{ marginBottom: '1.5rem', fontSize: '1.25rem', fontWeight: 'bold' }}>Configurações desta Conversa</h2>
+        <h2 style={{ marginBottom: '1.5rem', fontSize: '1.25rem', fontWeight: 'bold' }}>{t('editChatSettings')}</h2>
         
         <form onSubmit={handleSubmit} style={{ overflowY: 'auto', maxHeight: '70vh', paddingRight: '0.5rem' }}>
           <div style={{ marginBottom: '1rem' }}>
             <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>
-              System Prompt
-              <HelpTooltip text="Define o comportamento e as regras base da IA." />
+              {t('systemPrompt')}
+              <HelpTooltip text={t('systemPromptTooltip')} />
             </label>
             <textarea 
               name="systemPrompt" 
@@ -86,14 +87,14 @@ export default function ChatSettingsModal({ chat, onClose }) {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
             <div>
-              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>Provider</label>
+              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>{t('provider')}</label>
               <select name="provider" value={formData.provider} onChange={handleChange} className="select-field">
                 <option value="openai">OpenAI</option>
                 <option value="gemini">Google Gemini</option>
               </select>
             </div>
             <div>
-              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>Modelo</label>
+              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>{t('model')}</label>
               <select name="model" value={formData.model} onChange={handleChange} className="select-field">
                 {modelsAvailable[formData.provider].map(m => (
                   <option key={m} value={m}>{m}</option>
@@ -104,7 +105,7 @@ export default function ChatSettingsModal({ chat, onClose }) {
 
           <div style={{ marginBottom: '1rem' }}>
             <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500', justifyContent: 'space-between' }}>
-              <span>Temperatura: {formData.temperature}</span>
+              <span>{t('temperature')}: {formData.temperature}</span>
             </label>
             <input type="range" name="temperature" min="0" max="2" step="0.1" value={formData.temperature} onChange={handleChange} style={{ width: '100%', accentColor: 'var(--accent-color)' }} />
           </div>
@@ -112,22 +113,22 @@ export default function ChatSettingsModal({ chat, onClose }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
             <div>
                <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500', justifyContent: 'space-between' }}>
-                <span>Top K: {formData.topK}</span>
+                <span>{t('topK')}: {formData.topK}</span>
               </label>
               <input type="range" name="topK" min="1" max="100" step="1" value={formData.topK} onChange={handleChange} style={{ width: '100%', accentColor: 'var(--accent-color)' }} />
             </div>
 
             <div>
               <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500', justifyContent: 'space-between' }}>
-                <span>Top P: {formData.topP}</span>
-                <HelpTooltip text="Limitação por probabilidade acumulada (0-1)." />
+                <span>{t('topP')}: {formData.topP}</span>
+                <HelpTooltip text={t('topPTooltip')} />
               </label>
               <input type="range" name="topP" min="0" max="1" step="0.05" value={formData.topP} onChange={handleChange} style={{ width: '100%', accentColor: 'var(--accent-color)' }} />
             </div>
           </div>
 
           <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '0.75rem', marginTop:'0.5rem' }}>
-            Salvar Alterações
+            {t('saveChangesBtn')}
           </button>
         </form>
       </div>
