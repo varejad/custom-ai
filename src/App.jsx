@@ -18,10 +18,12 @@ function App() {
   );
 
   return (
-    <>
-      <Sidebar onOpenSettings={() => setShowSettings(true)} />
+    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+      <div className={`sidebar-container ${activeChatId ? 'hide-on-mobile' : ''}`}>
+        <Sidebar onOpenSettings={() => setShowSettings(true)} />
+      </div>
       
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <main className={`main-container ${!activeChatId ? 'hide-on-mobile' : ''}`}>
         {activeChatId ? (
           <ChatInterface />
         ) : (
@@ -30,7 +32,7 @@ function App() {
       </main>
 
       {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
-    </>
+    </div>
   );
 }
 

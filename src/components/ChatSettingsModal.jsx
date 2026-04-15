@@ -85,7 +85,7 @@ export default function ChatSettingsModal({ chat, onClose }) {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+          <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
             <div>
               <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>{t('provider')}</label>
               <select name="provider" value={formData.provider} onChange={handleChange} className="select-field">
@@ -110,7 +110,7 @@ export default function ChatSettingsModal({ chat, onClose }) {
             <input type="range" name="temperature" min="0" max="2" step="0.1" value={formData.temperature} onChange={handleChange} style={{ width: '100%', accentColor: 'var(--accent-color)' }} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+          <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
             <div>
                <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500', justifyContent: 'space-between' }}>
                 <span>{t('topK')}: {formData.topK}</span>

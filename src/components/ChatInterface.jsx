@@ -2,12 +2,12 @@ import { useContext, useState, useRef, useEffect } from 'react';
 import { AppContext } from '../AppContext';
 import { callLLM } from '../api/llmClient';
 import ReactMarkdown from 'react-markdown';
-import { Send, Bot, Settings2 } from 'lucide-react';
+import { Send, Bot, Settings2, ArrowLeft } from 'lucide-react';
 import ChatSettingsModal from './ChatSettingsModal';
 import { useTranslation } from '../hooks/useTranslation';
 
 export default function ChatInterface() {
-  const { activeChat, addMessage, settings } = useContext(AppContext);
+  const { activeChat, addMessage, settings, setActiveChatId } = useContext(AppContext);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -56,7 +56,10 @@ export default function ChatInterface() {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
       {/* Header Info */}
       <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '1rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <button className="btn-icon mobile-only" onClick={() => setActiveChatId(null)} title="Voltar" style={{ padding: '0.25rem', marginRight: '0.5rem' }}>
+            <ArrowLeft size={18} />
+          </button>
           <span><strong>Model:</strong> {activeChat.config.model}</span>
           <span><strong>Temp:</strong> {activeChat.config.temperature}</span>
           <span><strong>Top P:</strong> {activeChat.config.topP || 0.95}</span>
