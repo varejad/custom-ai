@@ -6,8 +6,9 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
-  const [settings, setSettings] = useState({ openaiKey: '', geminiKey: '' });
+  const [settings, setSettings] = useState({ openaiKey: '', geminiKey: '', language: 'pt' });
   const [isReady, setIsReady] = useState(false);
+  const [mobileView, setMobileView] = useState('sidebar'); // 'sidebar' | 'main'
 
   useEffect(() => {
     const init = async () => {
@@ -72,6 +73,15 @@ export const AppProvider = ({ children }) => {
     }));
   };
 
+  const updateChatName = (chatId, newName) => {
+     setChats(prev => prev.map(c => {
+      if (c.id === chatId) {
+        return { ...c, title: newName };
+      }
+      return c;
+    }));
+  };
+
   const deleteChat = (id) => {
     setChats(prev => prev.filter(c => c.id !== id));
     if (activeChatId === id) setActiveChatId(null);
@@ -80,8 +90,8 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider value={{
       chats, activeChatId, setActiveChatId, activeChat,
-      createChat, addMessage, updateMessage, updateChatConfig, deleteChat,
-      settings, setSettings, isReady
+      createChat, addMessage, updateMessage, updateChatConfig, updateChatName, deleteChat,
+      settings, setSettings, isReady, mobileView, setMobileView
     }}>
       {children}
     </AppContext.Provider>

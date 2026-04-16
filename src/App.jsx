@@ -7,7 +7,7 @@ import SettingsModal from './components/SettingsModal';
 import { useTranslation } from './hooks/useTranslation';
 
 function App() {
-  const { isReady, activeChatId } = useContext(AppContext);
+  const { isReady, mobileView, activeChatId } = useContext(AppContext);
   const [showSettings, setShowSettings] = useState(false);
   const { t } = useTranslation();
 
@@ -19,11 +19,11 @@ function App() {
 
   return (
     <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-      <div className={`sidebar-container ${activeChatId ? 'hide-on-mobile' : ''}`}>
+      <div className={`sidebar-container ${mobileView === 'main' ? 'hide-on-mobile' : ''}`}>
         <Sidebar onOpenSettings={() => setShowSettings(true)} />
       </div>
       
-      <main className={`main-container ${!activeChatId ? 'hide-on-mobile' : ''}`}>
+      <main className={`main-container ${mobileView === 'sidebar' ? 'hide-on-mobile' : ''}`}>
         {activeChatId ? (
           <ChatInterface />
         ) : (

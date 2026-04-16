@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../AppContext';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 
 const HelpTooltip = ({ text }) => {
@@ -36,7 +36,7 @@ const modelsAvailable = {
 };
 
 export default function ChatSetup() {
-  const { createChat } = useContext(AppContext);
+  const { createChat, setMobileView } = useContext(AppContext);
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     provider: 'openai',
@@ -66,7 +66,12 @@ export default function ChatSetup() {
   return (
     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', overflowY: 'auto' }}>
       <form onSubmit={handleSubmit} className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '600px', padding: '2.5rem', borderRadius: '1rem' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.5rem', fontWeight: 'bold' }}>{t('setupTitle')}</h2>
+        <div style={{ position: 'relative', marginBottom: '2.5rem', textAlign: 'center' }}>
+          <button className="btn-icon mobile-only" onClick={() => setMobileView('sidebar')} title="Voltar" style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', padding: '0.25rem' }} type="button">
+            <ArrowLeft size={18} />
+          </button>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: 0 }}>{t('setupTitle')}</h2>
+        </div>
         
         <div style={{ marginBottom: '1.5rem' }}>
           <label style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem', fontWeight: '500' }}>

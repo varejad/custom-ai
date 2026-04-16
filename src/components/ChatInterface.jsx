@@ -7,7 +7,7 @@ import ChatSettingsModal from './ChatSettingsModal';
 import { useTranslation } from '../hooks/useTranslation';
 
 export default function ChatInterface() {
-  const { activeChat, addMessage, settings, setActiveChatId } = useContext(AppContext);
+  const { activeChat, addMessage, settings, setActiveChatId, setMobileView } = useContext(AppContext);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -57,7 +57,7 @@ export default function ChatInterface() {
       {/* Header Info */}
       <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '1rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          <button className="btn-icon mobile-only" onClick={() => setActiveChatId(null)} title="Voltar" style={{ padding: '0.25rem', marginRight: '0.5rem' }}>
+          <button className="btn-icon mobile-only" onClick={() => { setActiveChatId(null); setMobileView('sidebar'); }} title="Voltar" style={{ padding: '0.25rem', marginRight: '0.5rem' }}>
             <ArrowLeft size={18} />
           </button>
           <span><strong>Model:</strong> {activeChat.config.model}</span>
